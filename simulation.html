@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worsmart | Simulation Active</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #2DD4BF; --bg: #050505; }
+        body { background: var(--bg); font-family: 'Inter', sans-serif; color: #94A3B8; overflow: hidden; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .glass { background: rgba(12, 14, 18, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .progress-glow { box-shadow: 0 0 15px var(--accent); }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+
+    <!-- Sim Header -->
+    <nav class="border-b border-white/5 px-6 py-4 flex justify-between items-center glass">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="text-white hover:text-cyan-400 text-sm flex items-center gap-2 transition">
+                <span>←</span> Exit
+            </a>
+            <div class="h-4 w-px bg-white/10"></div>
+            <span class="text-xs mono uppercase tracking-widest text-cyan-400">Task: PR_CRISIS_01</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="text-[10px] text-right">
+                <p class="text-slate-500 uppercase tracking-tighter">Time Elapsed</p>
+                <p class="text-white mono">04:12</p>
+            </div>
+            <div class="w-32 h-1 bg-white/5 rounded-full overflow-hidden">
+                <div id="progress-bar" class="h-full bg-cyan-400 progress-glow transition-all duration-500" style="width: 33%"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Sim Workspace -->
+    <main class="flex-1 flex overflow-hidden">
+        <!-- Sidebar Stats -->
+        <aside class="w-64 border-r border-white/5 p-6 hidden lg:block glass">
+            <h4 class="text-[10px] mono text-slate-500 uppercase mb-8">System Metrics</h4>
+            <div class="space-y-6">
+                <div>
+                    <p class="text-xs mb-2">Team Trust</p>
+                    <div class="h-1 bg-white/5 rounded-full"><div class="h-full bg-cyan-400 w-3/4"></div></div>
+                </div>
+                <div>
+                    <p class="text-xs mb-2">Code Quality</p>
+                    <div class="h-1 bg-white/5 rounded-full"><div class="h-full bg-yellow-400 w-1/2"></div></div>
+                </div>
+                <div>
+                    <p class="text-xs mb-2">User Impact</p>
+                    <div class="h-1 bg-white/5 rounded-full"><div class="h-full bg-red-500 w-1/4 animate-pulse"></div></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Active Terminal -->
+        <section class="flex-1 p-8 flex flex-col justify-center items-center relative">
+            <div class="max-w-2xl w-full">
+                <div id="scenario-box" class="mb-12">
+                    <p id="scenario-text" class="text-2xl text-white font-medium leading-relaxed">
+                        The Senior Engineer left a comment on your PR: <span class="text-cyan-400">"This logic is inefficient for large datasets. Please refactor."</span> 
+                        <br><br>
+                        The Sprint deadline is in 2 hours.
+                    </p>
+                </div>
+
+                <div id="decision-grid" class="grid gap-4">
+                    <button onclick="handleChoice(1)" class="w-full p-5 rounded-xl border border-white/10 bg-white/5 hover:border-cyan-500 transition text-left group">
+                        <span class="text-[10px] mono text-cyan-500 block mb-1">OPTION A</span>
+                        <span class="text-white">Ignore the comment and push to Prod to meet the deadline.</span>
+                    </button>
+                    <button onclick="handleChoice(2)" class="w-full p-5 rounded-xl border border-white/10 bg-white/5 hover:border-cyan-500 transition text-left group">
+                        <span class="text-[10px] mono text-cyan-500 block mb-1">OPTION B</span>
+                        <span class="text-white">Reply asking for a 30-min pair-programming session to clarify the refactor.</span>
+                    </button>
+                    <button onclick="handleChoice(3)" class="w-full p-5 rounded-xl border border-white/10 bg-white/5 hover:border-cyan-500 transition text-left group">
+                        <span class="text-[10px] mono text-cyan-500 block mb-1">OPTION C</span>
+                        <span class="text-white">Spend the next hour refactoring, even if it risks the deadline.</span>
+                    </button>
+                </div>
+                
+                <div id="feedback-box" class="hidden mt-8 p-6 rounded-xl border border-cyan-500/20 bg-cyan-500/5">
+                    <p id="feedback-text" class="text-cyan-400 text-sm italic"></p>
+                    <button onclick="location.reload()" class="mt-4 text-xs font-bold uppercase tracking-widest text-white hover:text-cyan-400">Restart Simulation</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function handleChoice(id) {
+            const fb = document.getElementById('feedback-box');
+            const btns = document.getElementById('decision-grid');
+            const text = document.getElementById('feedback-text');
+            
+            fb.classList.remove('hidden');
+            btns.classList.add('opacity-30', 'pointer-events-none');
+            
+            if(id === 2) text.innerText = "PRO MOVE: You prioritized long-term quality and learning over short-term panic. Communication saved the sprint.";
+            else text.innerText = "OUTCOME: Your choice led to technical debt or a missed deadline. Try to find the balance between communication and code.";
+        }
+    </script>
+</body>
+</html>
