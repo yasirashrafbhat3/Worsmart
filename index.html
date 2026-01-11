@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worsmart | Master the Art of Work</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --card: #0C0E12;
+            --accent: #2DD4BF; /* Neon Cyan */
+            --accent-muted: #134E48;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg);
+            color: #94A3B8;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .glass {
+            background: rgba(12, 14, 18, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .hero-glow {
+            background: radial-gradient(circle at center, rgba(45, 212, 191, 0.15) 0%, transparent 70%);
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(45, 212, 191, 0.4);
+            transform: translateY(-2px);
+        }
+        .decision-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .decision-card:hover {
+            border-color: var(--accent);
+            background: rgba(45, 212, 191, 0.03);
+        }
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-soft 2s infinite;
+        }
+    </style>
+</head>
+<body class="selection:bg-cyan-500/30">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 border-b border-white/5 glass px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-cyan-400 rounded-lg flex items-center justify-center">
+                    <span class="text-black font-black text-xs italic">W</span>
+                </div>
+                <span class="text-white font-bold tracking-tighter text-xl">WORSMART</span>
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-medium tracking-wide">
+                <a href="#sim" class="hover:text-cyan-400 transition">Simulations</a>
+                <a href="#philosophy" class="hover:text-cyan-400 transition">Philosophy</a>
+                <a href="#library" class="hover:text-cyan-400 transition">Library</a>
+            </div>
+            <a href="#early-access" class="btn-primary px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase">
+                Early Access
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="relative pt-32 pb-20 px-6 overflow-hidden hero-glow">
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-500/5 text-cyan-400 text-[10px] font-bold tracking-[0.2em] uppercase mb-8">
+                <span class="live-dot"></span> Simulation Platform
+            </div>
+            <h1 class="text-6xl md:text-8xl font-bold text-white tracking-tighter mb-8 leading-[0.9]">
+                Think like a pro <br><span class="text-slate-500">before Day 1.</span>
+            </h1>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
+                Ditch the lectures. Enter high-stakes workplace simulations designed to build your professional intuition. 
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#sim" class="btn-primary px-10 py-4 rounded-xl font-bold">Start Live Simulation</a>
+                <button class="glass px-10 py-4 rounded-xl font-bold text-white hover:bg-white/5">View Library</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Gap -->
+    <section id="philosophy" class="py-24 px-6 border-y border-white/5">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center">
+            <div>
+                <h2 class="text-4xl font-bold text-white mb-6">The Gap: Degrees vs. Reality</h2>
+                <p class="text-slate-400 mb-8 leading-relaxed">College teaches you syntax and theory. The workplace demands decision-making under uncertainty, pressure, and ambiguous requirements.</p>
+                
+                <div class="space-y-4">
+                    <div class="flex gap-4 p-4 rounded-xl border border-white/5 bg-white/[0.02]">
+                        <div class="text-red-500 text-xl font-bold italic opacity-50">01</div>
+                        <p class="text-sm"><span class="text-white font-semibold">College:</span> Solvable problems with clear instructions.</p>
+                    </div>
+                    <div class="flex gap-4 p-4 rounded-xl border border-cyan-500/20 bg-cyan-500/5">
+                        <div class="text-cyan-400 text-xl font-bold italic">01</div>
+                        <p class="text-sm"><span class="text-white font-semibold">Worsmart:</span> Vague requirements with ticking clocks.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="h-48 glass rounded-2xl flex flex-col justify-end p-6">
+                    <span class="text-xs uppercase tracking-widest mb-2 opacity-50">Focus</span>
+                    <span class="text-white font-bold">Patterns</span>
+                </div>
+                <div class="h-48 bg-cyan-500 rounded-2xl flex flex-col justify-end p-6 text-black">
+                    <span class="text-xs uppercase tracking-widest mb-2 opacity-70">Focus</span>
+                    <span class="font-black">Decisions</span>
+                </div>
+                <div class="h-48 glass rounded-2xl flex flex-col justify-end p-6">
+                    <span class="text-xs uppercase tracking-widest mb-2 opacity-50">Focus</span>
+                    <span class="text-white font-bold">Confidence</span>
+                </div>
+                <div class="h-48 glass rounded-2xl flex flex-col justify-end p-6 border-white/20">
+                    <span class="text-xs uppercase tracking-widest mb-2 opacity-50">Focus</span>
+                    <span class="text-white font-bold">Ownership</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulation Engine -->
+    <section id="sim" class="py-24 px-6 bg-black relative">
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl font-bold text-white mb-4">Worsmart OS v1.0</h2>
+                <p class="text-sm mono tracking-widest text-cyan-500">INTERACTIVE_DECISION_ENGINE</p>
+            </div>
+
+            <!-- Terminal UI -->
+            <div class="glass rounded-2xl overflow-hidden border-white/10 shadow-2xl">
+                <div class="bg-white/5 px-6 py-3 border-b border-white/10 flex items-center justify-between">
+                    <div class="flex gap-1.5">
+                        <div class="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/50"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
+                    </div>
+                    <div class="text-[10px] mono uppercase tracking-widest opacity-50">Session: srv_8829_fire</div>
+                    <div></div>
+                </div>
+                
+                <div id="sim-container" class="p-8 min-h-[400px]">
+                    <!-- JS Injected -->
+                </div>
+
+                <div id="feedback-tray" class="hidden p-8 border-t border-white/10 bg-black/40">
+                    <h4 id="feedback-title" class="text-xs mono uppercase tracking-widest mb-3"></h4>
+                    <p id="feedback-body" class="text-sm text-slate-300 leading-relaxed mb-6"></p>
+                    <button onclick="sim.next()" class="btn-primary px-6 py-2 rounded font-bold text-xs">Proceed to Next State</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Library Preview -->
+    <section id="library" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-white mb-16 text-center tracking-tighter italic">Select your path.</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card -->
+                <div class="glass p-8 rounded-3xl group hover:border-cyan-500/50 transition duration-500">
+                    <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition">
+                        <svg class="w-6 h-6 group-hover:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Software Eng.</h3>
+                    <p class="text-sm text-slate-500 mb-6">Manage vague PR feedback, database locks, and Friday deployments.</p>
+                    <span class="text-[10px] mono text-cyan-500">12 SIMULATIONS</span>
+                </div>
+                <!-- Card -->
+                <div class="glass p-8 rounded-3xl group hover:border-cyan-500/50 transition">
+                    <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition">
+                        <svg class="w-6 h-6 group-hover:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Data & Analytics</h3>
+                    <p class="text-sm text-slate-500 mb-6">Defend biased datasets and present insights to non-tech CEOs.</p>
+                    <span class="text-[10px] mono text-cyan-500">8 SIMULATIONS</span>
+                </div>
+                <!-- Card -->
+                <div class="glass p-8 rounded-3xl group hover:border-cyan-500/50 transition">
+                    <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition">
+                        <svg class="w-6 h-6 group-hover:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">AI / ML Eng.</h3>
+                    <p class="text-sm text-slate-500 mb-6">Balance model accuracy vs. inference costs in high-load systems.</p>
+                    <span class="text-[10px] mono text-cyan-500">10 SIMULATIONS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section id="early-access" class="py-32 px-6">
+        <div class="max-w-3xl mx-auto glass p-12 rounded-[40px] text-center relative overflow-hidden">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-cyan-500/10 blur-[100px]"></div>
+            <h2 class="text-4xl font-bold text-white mb-6">Build your professional edge.</h2>
+            <p class="text-slate-400 mb-10">Join the elite waitlist for Worsmart Early Access.</p>
+            <form class="flex flex-col sm:flex-row gap-3">
+                <input type="email" placeholder="Enter your email" class="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-cyan-500 transition">
+                <button type="submit" class="btn-primary px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest">Secure Spot</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-white/5 text-center">
+        <p class="text-[10px] mono uppercase tracking-widest text-slate-600">Built for the next generation of engineers & thinkers. © 2026 Worsmart.</p>
+    </footer>
+
+    <script>
+        const scenarioData = [
+            {
+                task: "> INCOMING_MESSAGE: Customer Support [URGENT]\n> 'Login button spinning for 10% of users. Lost 50 signups.'\n\nYou pushed an auth-fix 30 mins ago. The Lead is offline.",
+                choices: [
+                    { t: "Direct Patch", b: "Push a fast fix directly to Production to stop the bleeding.", res: "CRITICAL FAILURE: You bypassed CI/CD. The 'fix' broke the entire checkout flow. Pressure +100.", type: "fail" },
+                    { t: "Log Analysis", b: "Run 'grep' on the auth-service logs to find the exact error trace.", res: "SUCCESS: Found a DB timeout. You now have the data to act safely.", type: "success" },
+                    { t: "Escalate", b: "Call the CEO. They need to know the revenue is dropping.", res: "NOISE: You panicked the leadership before finding the cause. Not a pro move.", type: "neutral" }
+                ]
+            },
+            {
+                task: "> ANALYSIS_COMPLETE\n> Root cause: Database Connection Pool saturated.\n\nTwitter is starting to trend with #YourAppDown. What's the play?",
+                choices: [
+                    { t: "Hard Reset", b: "Restart the production database immediately.", res: "RISKY: Hard resets can lead to data corruption. There was a safer way.", type: "neutral" },
+                    { t: "Peer Review", b: "Post rollback command in #eng for a quick 'LGTM' from the SRE.", res: "ELITE: You mitigated risk by getting a 2nd pair of eyes. Rollback successful.", type: "success" },
+                    { t: "Wait it out", b: "Wait for the Lead to land in 2 hours.", res: "BUSINESS LOSS: You let the site stay down for 2 hours. Reliability score dropped.", type: "fail" }
+                ]
+            }
+        ];
+
+        class SimEngine {
+            constructor() {
+                this.step = 0;
+                this.container = document.getElementById('sim-container');
+                this.tray = document.getElementById('feedback-tray');
+                this.render();
+            }
+
+            render() {
+                this.tray.classList.add('hidden');
+                const data = scenarioData[this.step];
+                if(!data) {
+                    this.container.innerHTML = `<div class="text-center py-10"><h3 class="text-2xl font-bold text-white mb-4">SIM_COMPLETE</h3><p class="text-cyan-500 mono">Your Professional Intuition: 88% (Senior Level)</p></div>`;
+                    return;
+                }
+
+                let html = `<pre class="text-cyan-400 mono text-sm mb-8 leading-relaxed">${data.task}</pre><div class="grid gap-3">`;
+                data.choices.forEach((c, i) => {
+                    html += `<button onclick="sim.choose(${i})" class="decision-card p-5 rounded-xl text-left flex justify-between items-center group">
+                        <div>
+                            <span class="block text-[10px] mono text-slate-500 mb-1">OPT_0${i+1}</span>
+                            <span class="text-white font-medium text-sm">${c.b}</span>
+                        </div>
+                        <span class="opacity-0 group-hover:opacity-100 transition text-cyan-500">→</span>
+                    </button>`;
+                });
+                html += `</div>`;
+                this.container.innerHTML = html;
+            }
+
+            choose(idx) {
+                const choice = scenarioData[this.step].choices[idx];
+                this.tray.classList.remove('hidden');
+                document.getElementById('feedback-title').innerText = choice.type === 'success' ? 'STATUS: SUCCESS' : 'STATUS: ALERT';
+                document.getElementById('feedback-title').style.color = choice.type === 'success' ? '#2DD4BF' : '#EF4444';
+                document.getElementById('feedback-body').innerText = choice.res;
+                
+                const btns = document.querySelectorAll('.decision-card');
+                btns.forEach(b => b.style.pointerEvents = 'none');
+            }
+
+            next() {
+                this.step++;
+                this.render();
+            }
+        }
+
+        const sim = new SimEngine();
+    </script>
+</body>
+</html>
