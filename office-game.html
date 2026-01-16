@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORSMART | Office Reality</title>
+    
+    <!-- PhotoSphere Viewer CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.min.js"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Plus Jakarta Sans', sans-serif; }
+        #viewer { width: 100vw; height: 100vh; }
+        
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+
+        .status-dot {
+            width: 8px; height: 8px; background: #ef4444; border-radius: 50%;
+            box-shadow: 0 0 10px #ef4444; animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        #loading-screen {
+            position: fixed; inset: 0; background: #020617; z-index: 100;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 1s ease;
+        }
+
+        .pressure-bar-fill {
+            height: 100%; background: linear-gradient(90deg, #ef4444, #f87171);
+            width: 75%; box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="w-12 h-12 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin mb-4"></div>
+        <p class="text-xs mono tracking-[0.3em] text-cyan-500 uppercase">Connecting to Office_HQ...</p>
+    </div>
+
+    <!-- 360 Viewer Container -->
+    <div id="viewer"></div>
+
+    <!-- UI OVERLAY -->
+    
+    <!-- Top Left: Incident Panel -->
+    <div class="fixed top-8 left-8 z-10 w-80 glass p-6">
+        <div class="flex items-center gap-2 mb-4">
+            <div class="status-dot"></div>
+            <span class="text-[10px] mono font-bold text-red-400 uppercase tracking-widest">Critical Incident Active</span>
+        </div>
+        <h3 class="text-white font-bold text-lg mb-2">US-East-1 Latency Spike</h3>
+        <p class="text-xs text-slate-400 leading-relaxed mb-4">Users reporting timeouts on the checkout flow. Dashboard shows 400% increase in DB lock wait times.</p>
+        <div class="bg-white/5 rounded-lg p-3 border border-white/5">
+            <span class="text-[9px] mono text-slate-500 uppercase block mb-1">Impact</span>
+            <span class="text-white font-bold text-sm">-$12,400 / minute</span>
+        </div>
+    </div>
+
+    <!-- Top Right: Slack Panel -->
+    <div class="fixed top-8 right-8 z-10 w-72 glass p-4 animate-float">
+        <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
+            <span class="text-[10px] font-bold text-white italic">#war-room-latency</span>
+            <span class="text-[9px] text-slate-500">2 New</span>
+        </div>
+        <div class="space-y-4">
+            <div class="flex gap-3">
+                <div class="w-8 h-8 rounded bg-orange-500/20 flex items-center justify-center text-orange-400 font-bold text-xs">M</div>
+                <div>
+                    <p class="text-[11px] font-bold text-white">Manager Alex</p>
+                    <p class="text-[11px] text-slate-300">"Yasir, the CTO is asking for a summary. Do we rollback now?"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Center: Pressure & Action -->
+    <div class="fixed bottom-12 left-1/2 -translate-x-1/2 z-10 w-full max-w-md px-6 text-center">
+        <div class="glass p-6 mb-4">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-[10px] mono text-slate-400 uppercase tracking-widest">Workload Pressure</span>
+                <span class="text-[10px] mono text-red-400">75%</span>
+            </div>
+            <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                <div class="pressure-bar-fill"></div>
+            </div>
+        </div>
+        
+        <button id="start-btn" onclick="startSim()" class="bg-white text-black px-10 py-4 rounded-full font-black text-xs uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:scale-105 active:scale-95 transition">
+            Press Enter to Respond
+        </button>
+        <p class="text-[10px] text-slate-500 mt-4 mono uppercase">Mouse to look around • Space to Zoom</p>
+    </div>
+
+    <script>
+        // 1. Initialize PhotoSphere Viewer with a Real MAANG-style Office Image
+        const viewer = new PhotoSphereViewer.Viewer({
+            container: document.querySelector('#viewer'),
+            // Real high-res office panorama (Clean, glass-heavy tech office)
+            panorama: './assets/office/office-360.jpg', 
+            loadingImg: '',
+            navbar: false,
+            defaultZoomLvl: 0,
+            mousewheel: true,
+            touchmoveTwoFingers: false,
+            // Auto-rotate to give it a "cinematic" start
+            autorotateDelay: 2000,
+            autorotateSpeed: '0.5rpm',
+        });
+
+        // 2. Hide loading screen when the image is ready
+        viewer.addEventListener('ready', () => {
+            document.getElementById('loading-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+            }, 1000);
+        });
+
+        // 3. Navigation Logic
+        function startSim() {
+            // Subtle transition effect
+            document.body.style.transition = 'filter 0.5s ease';
+            document.body.style.filter = 'brightness(0)';
+            setTimeout(() => {
+                window.location.href = 'simulation.html';
+            }, 500);
+        }
+
+        // 4. Keyboard Shortcuts
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                startSim();
+            }
+        });
+
+        // 5. Parallax Effect for UI
+        window.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 50;
+            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            const overlays = document.querySelectorAll('.glass');
+            overlays.forEach(el => {
+                el.style.transform = `translateX(${x}px) translateY(${y}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

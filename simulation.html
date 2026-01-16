@@ -106,3 +106,259 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORSMART | ACTIVE_SESSION</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cyan: #00F2FF;
+            --magenta: #FF00E5;
+            --bg: #020203;
+            --glass: rgba(10, 10, 15, 0.7);
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            perspective: 1200px; /* Crucial for Spatial Feeling */
+        }
+
+        .spatial-scene {
+            width: 100vw;
+            height: 100vh;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+        }
+
+        .module-header {
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Module Specific Positioning */
+        #comms-hub { width: 320px; height: 500px; left: 5%; transform: translateZ(50px) rotateY(15deg); }
+        #work-core { width: 700px; height: 600px; transform: translateZ(0px); }
+        #status-bar { width: 320px; height: 200px; right: 5%; bottom: 10%; transform: translateZ(30px) rotateY(-10deg); }
+        #manager-call { width: 280px; height: 180px; right: 5%; top: 10%; transform: translateZ(100px) rotateY(-20deg); opacity: 0; transition: 0.5s; }
+
+        .decision-btn {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            text-align: left;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .decision-btn:hover {
+            background: rgba(0, 242, 255, 0.1);
+            border-color: var(--cyan);
+            transform: scale(1.02);
+        }
+
+        .progress-line {
+            height: 2px;
+            background: var(--cyan);
+            box-shadow: 0 0 10px var(--cyan);
+            transition: width 1s linear;
+        }
+
+        .scanline {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none; z-index: 100;
+        }
+
+        @keyframes alert-pulse {
+            0% { border-color: rgba(255, 0, 0, 0); }
+            50% { border-color: rgba(255, 0, 0, 0.5); background: rgba(255, 0, 0, 0.05); }
+            100% { border-color: rgba(255, 0, 0, 0); }
+        }
+        .critical-alert { animation: alert-pulse 1s infinite; }
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+
+    <div class="spatial-scene" id="scene">
+        
+        <!-- COMM HUB (SLACK STYLE) -->
+        <div class="glass-panel" id="comms-hub">
+            <div class="module-header"><span>INCOMING_COMMS</span><span class="text-cyan-400">● LIVE</span></div>
+            <div class="p-6 space-y-4 overflow-y-auto h-[440px] text-xs" id="chat-logs">
+                <div class="bg-white/5 p-3 rounded-lg">
+                    <p class="font-bold text-cyan-400 mb-1">Lead_Sarah</p>
+                    <p class="opacity-70 text-[11px]">Yasir, you ready? The deployment window opens in 5 mins. Don't touch the DB directly.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- WORK CORE (THE MISSION) -->
+        <div class="glass-panel" id="work-core">
+            <div class="module-header"><span>WORKSPACE // TASK_IDENTIFIER_772</span><span id="timer">04:59</span></div>
+            <div class="p-10">
+                <div id="mission-ui">
+                    <h1 class="text-3xl font-extrabold mb-4 tracking-tighter">THE DATABASE DRIFT</h1>
+                    <p class="text-slate-400 mb-8 leading-relaxed">The production logs are showing a <span class="text-red-500 font-mono italic">3000ms latency spike</span>. A Tier-1 customer just dropped off the call. The Marketing VP is asking for an ETA.</p>
+                    
+                    <div id="decision-space">
+                        <!-- Decisions injected by JS -->
+                    </div>
+                </div>
+            </div>
+            <div class="absolute bottom-0 w-full px-10 pb-6">
+                <div class="text-[10px] mono text-slate-500 mb-2 uppercase">Decision Pressure</div>
+                <div class="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                    <div id="pressure-bar" class="progress-line w-full"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MANAGER CALL (AI AVATAR) -->
+        <div class="glass-panel" id="manager-call">
+            <div class="module-header"><span>VIDEO_FEED</span><span class="text-red-500">ENCRYPTED</span></div>
+            <div class="flex items-center p-4 gap-4">
+                <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-800 animate-pulse"></div>
+                <div>
+                    <p class="font-bold text-white text-sm">Director_Alex</p>
+                    <p class="text-[10px] text-slate-400">"Yasir, the board is watching. Give me a reason to trust this fix."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATS / CAREER RPG -->
+        <div class="glass-panel" id="status-bar">
+            <div class="module-header"><span>REPUTATION_METRICS</span></div>
+            <div class="p-6 grid grid-cols-2 gap-4">
+                <div>
+                    <p class="text-[10px] text-slate-500 mb-1 uppercase tracking-widest">Salary</p>
+                    <p class="text-xl font-bold text-white mono">$<span id="salary">120,000</span></p>
+                </div>
+                <div>
+                    <p class="text-[10px] text-slate-500 mb-1 uppercase tracking-widest">Reliability</p>
+                    <p class="text-xl font-bold text-cyan-400 mono"><span id="reliability">85</span>%</p>
+                </div>
+                <div class="col-span-2">
+                    <p class="text-[10px] text-slate-500 mb-1 uppercase tracking-widest">Role</p>
+                    <p class="text-xs font-bold text-white mono uppercase tracking-widest">Junior Software Engineer</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // SPATIAL ENGINE: Mouse tracking
+        const scene = document.getElementById('scene');
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
+            scene.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // SIMULATION DATA
+        const steps = [
+            {
+                scenario: "The latency is getting worse. You see two conflicting logs. One says it's a 'DNS Loop', the other says 'DB Lock'. Sarah is offline.",
+                choices: [
+                    { t: "Restart the DB Cluster", impact: { sal: -5000, rel: -10 }, feedback: "CRITICAL: You caused 2 mins of downtime. The VP is furious.", next: 1 },
+                    { t: "Isolate the Auth-Service", impact: { sal: +2000, rel: +5 }, feedback: "PRO: You minimized the impact. Sarah likes your initiative.", next: 1 },
+                    { t: "Wait for Senior Peer Review", impact: { sal: 0, rel: +15 }, feedback: "SAFE: You prioritized stability over speed. Reliability increased.", next: 1 }
+                ]
+            }
+        ];
+
+        let currentStep = 0;
+        let salary = 120000;
+        let reliability = 85;
+
+        function renderStep() {
+            const step = steps[currentStep];
+            const space = document.getElementById('decision-space');
+            space.innerHTML = '';
+            
+            step.choices.forEach((choice, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'decision-btn';
+                btn.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-white">${choice.t}</span>
+                        <span class="text-[10px] mono text-cyan-500 opacity-0 group-hover:opacity-100">EXECUTE_</span>
+                    </div>
+                `;
+                btn.onclick = () => makeDecision(choice);
+                space.appendChild(btn);
+            });
+        }
+
+        function makeDecision(choice) {
+            // RPG Feedback
+            salary += choice.impact.sal;
+            reliability += choice.impact.rel;
+            
+            document.getElementById('salary').innerText = salary.toLocaleString();
+            document.getElementById('reliability').innerText = reliability;
+
+            // Trigger AI Manager Call if decision is risky
+            if(choice.impact.sal < 0) {
+                const call = document.getElementById('manager-call');
+                call.style.opacity = '1';
+                document.getElementById('work-core').classList.add('critical-alert');
+            }
+
+            // Update Chat Hub
+            const logs = document.getElementById('chat-logs');
+            logs.innerHTML += `
+                <div class="bg-cyan-500/10 p-3 rounded-lg border border-cyan-500/20">
+                    <p class="font-bold text-white mb-1">SYSTEM_FEEDBACK</p>
+                    <p class="text-[10px] text-cyan-200">${choice.feedback}</p>
+                </div>
+            `;
+            logs.scrollTop = logs.scrollHeight;
+        }
+
+        renderStep();
+
+        // Pressure Timer Logic
+        let pressure = 100;
+        const pressureBar = document.getElementById('pressure-bar');
+        setInterval(() => {
+            if(pressure > 0) {
+                pressure -= 0.5;
+                pressureBar.style.width = pressure + '%';
+                if(pressure < 30) pressureBar.style.background = '#FF0055';
+            }
+        }, 100);
+    </script>
+</body>
+</html>
